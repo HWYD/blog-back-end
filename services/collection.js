@@ -1,11 +1,21 @@
-import Collection from "../models/collection.js"
+import CollectionModel from "../models/collection.js"
 import Book from "../models/book.js"
 
   
   // 创建记录
 async function createCollection(info) {
-      const book = await Collection.create(info)
-      return book.toJSON()
+      const collection = await CollectionModel.findOne({
+        where: {
+          user_id: info.user_id,
+          book_id: info.book_id
+        }
+      })
+      if(!collection){
+        newCollection = await CollectionModel.create(info)
+        return newCollection.toJSON()
+      }
+      
+      return null
   }
   
   // 查询所有记录
@@ -17,7 +27,7 @@ async function createCollection(info) {
 //   // 根据 用户id 查询该收藏记录
   async function findCollectionByUserId(user_id,offset,limit) {
     console.log(offset,limit, typeof offset,'test')
-     const userCollections  = await Collection.findAll({
+     const userCollections  = await CollectionModel.findAll({
       where: {
           user_id
       },
@@ -60,22 +70,26 @@ async function createCollection(info) {
 //     return book
 //   }
   
-//   // 删除记录
-//   async function deleteUser(id) {
-//     const user = await User.findByPk(id)
-//     if (user) {
-//       await user.destroy()
-//       console.log('User deleted')
-//     } else {
-//       console.log('User not found')
-//     }
-//     return user
-//   }
+  // 删除收藏记录
+  async function deleCollection(info) {
+    const collection = await CollectionModel.findOne({
+      where: {
+        user_id: info.user_id,
+        book_id: info.book_id
+      }
+    })
+    if (collection) {
+      const destroyCollection = await collection.destroy()
+      return destroyCollection
+    } else {
+      return null
+    }
+  }
   
   export default {
     createCollection,
     findCollectionByUserId,
-    // findUserById,
+    deleCollection,
     // updateBook,
     // deleteUser
   }

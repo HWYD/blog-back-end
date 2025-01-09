@@ -31,12 +31,16 @@ router.post('/register', async(req, res) => {
 //登录
 router.post('/login', async(req, res) => {
     const body = req.body
-    const userInfo = body
+    let userInfo = body
     if(userInfo.phone){
       const userData  = await userServices.findUserByPhone(userInfo.phone)
       console.log(userData)
       bcrypt.compare(userInfo.password, userData.password, function(err, result) {
         if(result == true){
+            userInfo = {
+              ...userInfo,
+              id: userData.id
+            }
             const token = generateToken(userInfo)
             console.log(req.body,'body')
             const result = resFormatter({token})

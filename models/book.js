@@ -1,5 +1,6 @@
 import sequelize from '../config/database.js'
 import { DataTypes } from 'sequelize';
+// import paginate from 'sequelize-paginate';
 
 // 定义模型
 const Book = sequelize.define(
@@ -48,7 +49,8 @@ const Book = sequelize.define(
     }
   )
   
-  
+// paginate.paginate(Book);
+
 export default Book;
 
   

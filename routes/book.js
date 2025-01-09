@@ -6,8 +6,13 @@ import { resFormatter } from '../utils/index.js'
 //书籍列表
 router.get('/book', async(req, res) => {
     const query = req.query
+    console.log('users',req.user)
     try {
-        const bookData  = await bookServices.findAllBooks()
+        const user_id = req.user.id || ''
+        const page = Number(query.page)
+        const limit = Number(query.pagesize)
+        const offset = (page - 1) * limit
+        const bookData  = await bookServices.findAllBooks(user_id,offset,limit)
         const result = resFormatter(bookData)
         res.json(result)
     } catch (error) {

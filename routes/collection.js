@@ -1,22 +1,38 @@
 import express from 'express'
-const router = express.Router()
+import multer from 'multer'
 import collectionServices from '../services/collection.js'
 import bookServices from '../services/book.js'
 import { resFormatter } from '../utils/index.js'
 
-//记录用户收藏
-router.post('/collection', async(req, res) => {
-    const {body} = req
-    const info = body
+const router = express.Router()
+
+const bodyMulter = multer({ storage: multer.memoryStorage() }); 
+
+//记录用户收藏与取消收藏
+router.post('/collection',bodyMulter.none(), async(req, res) => {
+    const info = Object.assign({}, req.body);
+    console.log('body看这里',info,req.body,'试试')
+    const status = info.status
     try {
-        const data  = await collectionServices.createCollection(info)
-        console.log(data,body,'test',info.book_id)
-        await bookServices.updateCollectNum(info.book_id)  
-        const result = resFormatter('收藏成功')
+        let result
+        if(info.status == '1'){
+            const data  = await collectionServices.createCollection(info)
+            if(data){
+                await bookServices.updateCollectNum(info.book_id,status)  
+            }
+                result = resFormatter('收藏成功')
+        }else{
+            const data  = await collectionServices.deleCollection(info)
+            if(data){
+                await bookServices.updateCollectNum(info.book_id,status)  
+            }
+                result = resFormatter('取消收藏成功')
+        }
+        
         res.send(result)
     } catch (error) {
         console.log('这里',error)
-        const result = resFormatter(error,'收藏失败')
+        const result = resFormatter(error,  status == '1'? '收藏失败': '取消收藏失败')
         res.send(result)
         // console.log('error',error)
     }
