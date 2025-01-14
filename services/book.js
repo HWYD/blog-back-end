@@ -1,9 +1,9 @@
 import Book from '../models/book.js'
+import Tag from '../models/tag.js'
 import Collection from '../models/collection.js'
-import sequelize from '../config/database.js'
-import { where } from 'sequelize'
+import '../models/associations.js'
 
-  
+
   // 创建记录
 async function createBook(bookInfo) {
     const book = await Book.create(bookInfo)
@@ -23,7 +23,13 @@ async function createBook(bookInfo) {
           },
           distinct: true,
           required: false   //左外连接, 没有找到与 Book 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Book 模型中的那条记录
-        } 
+        },
+        {
+          model: Tag,
+          through: {
+            attributes: []
+          }
+        }
       ],
       attributes:[
         'id',

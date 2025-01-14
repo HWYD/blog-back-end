@@ -1,7 +1,11 @@
 import express from 'express'
-const router = express.Router()
+import multer from 'multer'
 import bookServices  from '../services/book.js'
 import { resFormatter } from '../utils/index.js'
+
+const router = express.Router()
+
+const bodyMulter = multer({ storage: multer.memoryStorage() }); 
 
 //书籍列表
 router.get('/book', async(req, res) => {
@@ -21,9 +25,8 @@ router.get('/book', async(req, res) => {
 })
 
 //新增书籍
-router.post('/book', async(req, res) => {
-    const { body } = req
-    const bookInfo = body
+router.post('/book', bodyMulter.none(), async(req, res) => {
+    const bookInfo = Object.assign({}, req.body);
     try {
         const bookData  = await bookServices.createBook(bookInfo)
         console.log('createInfo', bookData)

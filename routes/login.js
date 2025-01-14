@@ -1,4 +1,5 @@
 import express from 'express'
+import multer from 'multer'
 import { generateToken } from '../utils/index.js'
 // import { UserDb } from '../db/user.js'
 import userServices  from '../services/user.js'
@@ -7,12 +8,11 @@ import { resFormatter } from '../utils/index.js'
 
 const router = express.Router()
 
+const bodyMulter = multer({ storage: multer.memoryStorage() }); 
 
 //注册
-router.post('/register', async(req, res) => {
-  const { body } = req
-  console.log('body',body)
-  const userInfo = body
+router.post('/register',bodyMulter.none(), async(req, res) => {
+  const userInfo = Object.assign({}, req.body);
   try {
     bcrypt.hash(userInfo.password, 10, async function(err, hash) {
         // 存储哈希后的密码到数据库
@@ -29,9 +29,8 @@ router.post('/register', async(req, res) => {
 })
 
 //登录
-router.post('/login', async(req, res) => {
-    const body = req.body
-    let userInfo = body
+router.post('/login',bodyMulter.none(), async(req, res) => {
+  let userInfo = Object.assign({}, req.body);
     if(userInfo.phone){
       const userData  = await userServices.findUserByPhone(userInfo.phone)
       console.log(userData)

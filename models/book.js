@@ -1,5 +1,7 @@
 import sequelize from '../config/database.js'
 import { DataTypes } from 'sequelize';
+import Tag from './tag.js'
+
 // import paginate from 'sequelize-paginate';
 
 // 定义模型
@@ -50,6 +52,26 @@ const Book = sequelize.define(
   )
   
 // paginate.paginate(Book);
+
+// 定义书籍与标签的多对多关联关系
+// Book.belongsToMany(Tag, {
+//   through: 'book_tag',
+//   foreignKey: {
+//     name: 'book_id',
+//     references: {
+//         model: 'Book',
+//         key: 'id'
+//     }
+//   },
+//   otherForeignKey: {
+//     name: 'tag_id',
+//     references: {
+//         model: 'Tag',
+//         key: 'id'
+//     }
+//   }
+// });
+
 
 export default Book;
 
