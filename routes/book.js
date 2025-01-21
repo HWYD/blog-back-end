@@ -13,8 +13,8 @@ router.get('/book', async(req, res) => {
     console.log('users',req.user)
     try {
         const user_id = req.user.id || ''
-        const page = Number(query.page)
-        const limit = Number(query.pagesize)
+        const page = Number(query.page || 1)
+        const limit = Number(query.pagesize || 10)
         const offset = (page - 1) * limit
         const bookData  = await bookServices.findAllBooks(user_id,offset,limit)
         const result = resFormatter(bookData)
