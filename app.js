@@ -5,7 +5,7 @@ import mountMiddleware from './middleware/index.js'
 
 
 
-const PORT = 3000 // 用于设置端口号
+const PORT = 3300 // 用于设置端口号
 const app = express() // 创建一个express应用程序实例
 app.use(express.static('public'))
 
