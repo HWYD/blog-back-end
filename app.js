@@ -2,12 +2,12 @@ import express from 'express'
 import mountRouters from './routes/mountRouters.js'
 import mountMiddleware from './middleware/index.js'
 import cors from 'cors';
-
-
+import cookieParser from 'cookie-parser'
 
 const PORT = 3300 // 用于设置端口号
 const app = express() // 创建一个express应用程序实例
 app.use(express.static('public'))
+app.use(cookieParser());
 
 // 或者只允许特定源的请求
 app.use(cors({
