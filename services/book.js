@@ -37,6 +37,7 @@ async function createBook(bookInfo) {
         'author',
         'description',
         'cover',
+        'collect_num',
         'create_time',
         // [
         //   sequelize.literal('CASE WHEN COUNT(`UserBookCollections`.`user_id`) > 0 THEN 1 ELSE 0 END'),

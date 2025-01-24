@@ -11,7 +11,7 @@ export function generateToken(userInfo) {
     //     // 可以添加更多需要包含在token中的用户信息
     // };
     const options = {
-        expiresIn: '24h' // token的有效期，这里设置为1小时
+        expiresIn: '120h' // token的有效期，这里设置为1小时
     };
     const token = jwt.sign(userInfo, secretKey, options);
     console.log('token',token)
