@@ -25,7 +25,7 @@ mountMiddleware(app)
 mountRouters(app)
 
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0',() => {
     // 在控制台输出服务器运行信息
     console.log(`Server is running at http://localhost:${PORT}`)
   })
