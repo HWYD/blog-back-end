@@ -9,7 +9,7 @@ export default function mountMiddleware(app) {
   app.use((req, res, next) => {
     const { method, path, query, body, headers } = req
     console.log(`[${method}] ${path}`)
-    if(!path.includes('login') && !path.includes('register')){
+    if(!path.includes('login') && !path.includes('register')  && !path.includes('hello')){
       console.log('不是登录')
       authenticateToken(req, res, next)
     }else{
