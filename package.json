@@ -4,8 +4,8 @@
   "description": "博客平台后端",
   "main": "app.js",
   "scripts": {
-    "dev": "node app.js",
-    "start": "node app.js",
+    "dev": "cross-env NODE_ENV=development node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hwy",
@@ -24,6 +24,7 @@
     "sequelize-paginate": "^1.1.6"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.4"
   }
 }
