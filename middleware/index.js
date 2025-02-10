@@ -1,12 +1,6 @@
 import express from 'express'
 import { authenticateToken } from '../utils/index.js'
 
-const whiteList = [
-  '/login',
-  '/register',
-  '/book',
-  'hello'
-];
 
 export default function mountMiddleware(app) {
   app.use(express.json()) // 支持body解析
@@ -14,12 +8,12 @@ export default function mountMiddleware(app) {
   app.use((req, res, next) => {
     const { method, path, query, body, headers } = req
     console.log(`[${method}] ${path}`)
-    if(!whiteList.includes(path)){
-      console.log('不是登录')
-      authenticateToken(req, res, next)
-    }else{
-      next()  
-    }
+    // if(!whiteList.includes(path)){
+    //   console.log('不是登录')
+    //   authenticateToken(req, res, next)
+    // }else{
+    //   next()  
+    // }
+    authenticateToken(req, res, next)
   })
-  // app.use(authenticateToken)
 }

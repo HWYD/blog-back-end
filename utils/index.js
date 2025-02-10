@@ -2,6 +2,12 @@ import jwt from 'jsonwebtoken'
 
 const secretKey = 'secret_key_1230';
 
+const whiteList = [
+  '/login',
+  '/register',
+  '/book',
+  'hello'
+];
 
 //生成token
 export function generateToken(userInfo) {
@@ -25,12 +31,16 @@ export function authenticateToken(req, res, next) {
   const token = req.cookies.authorization || req.headers.authorization
   console.log('有无token',token)
   if (token == null) {
-      return res.sendStatus(401);
+      // return res.sendStatus(401);
+      next();
+      return
   }
   jwt.verify(token, secretKey, (err, user) => {
       if (err) {
-          console.log('err 403')
-          return res.sendStatus(403);
+          // console.log('err 403')
+          // return res.sendStatus(403);
+          next();
+          return
       }
       console.log('校验通过')
       req.user = user;
