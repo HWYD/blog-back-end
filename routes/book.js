@@ -12,7 +12,7 @@ router.get('/book', async(req, res) => {
     const query = req.query
     console.log('users',req.user)
     try {
-        const user_id = req.user.id || ''
+        const user_id = req.user?.id || ''
         const page = Number(query.page || 1)
         const limit = Number(query.pagesize || 10)
         const offset = (page - 1) * limit
