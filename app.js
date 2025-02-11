@@ -11,7 +11,7 @@ app.use(cookieParser());
 
 // 或者只允许特定源的请求
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','http://8.138.28.97:3000','http://8.138.28.97'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
