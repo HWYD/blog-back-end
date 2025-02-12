@@ -2,6 +2,7 @@ import express from 'express'
 import multer from 'multer'
 import collectionServices from '../services/collection.js'
 import bookServices from '../services/book.js'
+import articleServices from '../services/article.js'
 import { resFormatter } from '../utils/index.js'
 
 const router = express.Router()
@@ -18,13 +19,13 @@ router.post('/collection',bodyMulter.none(), async(req, res) => {
         if(info.status == '1'){
             const data  = await collectionServices.createCollection(info)
             if(data){
-                await bookServices.updateCollectNum(info.book_id,status)  
+                await articleServices.updateCollectNum(info.article_id,status)  
             }
                 result = resFormatter('收藏成功')
         }else{
             const data  = await collectionServices.deleCollection(info)
             if(data){
-                await bookServices.updateCollectNum(info.book_id,status)  
+                await articleServices.updateCollectNum(info.article_id,status)  
             }
                 result = resFormatter('取消收藏成功')
         }

@@ -32,25 +32,25 @@ router.post('/tag', bodyMulter.none(), async(req, res) => {
 })
 
 //新增标签
-router.post('/book-tag', bodyMulter.none(), async(req, res) => {
-    const bookTagInfo = Object.assign({}, req.body);
-    console.log(bookTagInfo,typeof bookTagInfo.tag_id,Array.isArray(bookTagInfo.tag_id))
+router.post('/article-tag', bodyMulter.none(), async(req, res) => {
+    const articleTagInfo = Object.assign({}, req.body);
+    console.log(articleTagInfo,typeof articleTagInfo.tag_id,Array.isArray(articleTagInfo.tag_id))
     try {
-        const ret = await tagServices.deleteBookTag(bookTagInfo.book_id)
-        const tagData  = await tagServices.updateBookTag(bookTagInfo)
+        const ret = await tagServices.deleteArticleTag(articleTagInfo.article_id)
+        const tagData  = await tagServices.updateArticleTag(articleTagInfo)
         const result = resFormatter('打标签成功')
         res.send(result)
     } catch (error) {
         console.log('error',error)
         if(error.name = 'SequelizeUniqueConstraintError'){
-            console.error('尝试插入重复的书籍 - 标签组合，以下是可能重复的数据:');
+            console.error('尝试插入重复的文章 - 标签组合，以下是可能重复的数据:');
             if(Array.isArray(error.errors)){
                 error.errors.forEach((err) => {
-                    console.log(`书籍ID-标签ID: ${err.value}`);
+                    console.log(`文章ID-标签ID: ${err.value}`);
                 });
             }
         }else{
-            console.error('插入书籍 - 标签数据时出错:', error);
+            console.error('插入文章 - 标签数据时出错:', error);
         }
         const result = resFormatter(error,'打标签失败')
         res.send(result)

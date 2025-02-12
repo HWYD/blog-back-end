@@ -7,11 +7,11 @@ async function createCollection(info) {
       const collection = await CollectionModel.findOne({
         where: {
           user_id: info.user_id,
-          book_id: info.book_id
+          article_id: info.article_id
         }
       })
       if(!collection){
-        newCollection = await CollectionModel.create(info)
+        const newCollection = await CollectionModel.create(info)
         return newCollection.toJSON()
       }
       
@@ -34,7 +34,7 @@ async function createCollection(info) {
       include: [
         {
           model: Book,
-          attributes: ['name','description','author','cover']
+          attributes: ['title','description','content','cover']
         }
       ],
       offset,
@@ -46,7 +46,7 @@ async function createCollection(info) {
         const ret = userCollections.map((collection) =>({
           id: collection.id,
           user_id: collection.user_id,
-          book_id: collection.book_id,
+          article_id: collection.article_id,
           ...collection.Book.toJSON()
         }))
         return ret
@@ -75,7 +75,7 @@ async function createCollection(info) {
     const collection = await CollectionModel.findOne({
       where: {
         user_id: info.user_id,
-        book_id: info.book_id
+        article_id: info.article_id
       }
     })
     if (collection) {

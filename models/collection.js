@@ -1,13 +1,13 @@
 import sequelize from '../config/database.js'
 import { DataTypes } from 'sequelize';
 import User from './user.js';
-import Book from './book.js';
-
+// import Book from './book.js';
+import Article from './article.js';
 
 
 // 定义模型
 const Collection = sequelize.define(
-    'UserBookCollections',
+    'UserArticleCollections',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -23,17 +23,17 @@ const Collection = sequelize.define(
           key: 'id'
         }
       },
-      book_id: {
+      article_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: Book,
+          model: Article,
           key: 'id'
         }
       }
     },
     {
-      tableName: 'user_book_collections', // 指定表格名称
+      tableName: 'user_article_collections', // 指定表格名称
       timestamps: false, 
     }
   )
