@@ -7,10 +7,10 @@ const router = express.Router()
 
 const bodyMulter = multer({ storage: multer.memoryStorage() }); 
 
-//书籍列表
+//所有文章列表
 router.get('/article', async(req, res) => {
     const query = req.query
-    console.log('users',req.user)
+    console.log('users',req.query)
     try {
         const user_id = req.user?.id || ''
         const page = Number(query.page || 1)
@@ -24,7 +24,38 @@ router.get('/article', async(req, res) => {
     }
 })
 
-//新增书籍
+//某个用户的文章列表
+router.get('/self_article', async(req, res) => {
+    const query = req.query
+    console.log('users',req.user)
+    try {
+        const user_id = req.user?.id || ''
+        const page = Number(query.page || 1)
+        const limit = Number(query.pagesize || 10)
+        const offset = (page - 1) * limit
+        const bookData  = await articleServices.findSelfArticles(user_id,offset,limit)
+        const result = resFormatter(bookData)
+        res.json(result)
+    } catch (error) {
+        console.log('error',error)
+    }
+})
+
+//获取某篇文章
+router.get('/article_one', async(req, res) => {
+    const query = req.query
+    console.log('article_one',query)
+    try {
+        const id = query.id || ''
+        const bookData  = await articleServices.findArticleById(id)
+        const result = resFormatter(bookData)
+        res.json(result)
+    } catch (error) {
+        console.log('error',error)
+    }
+})
+
+//新增文章
 router.post('/article', bodyMulter.none(), async(req, res) => {
     const user_id = req.user?.id || ''
     const articleInfo = Object.assign({}, req.body, {user_id});
