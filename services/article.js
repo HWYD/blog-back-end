@@ -39,7 +39,6 @@ async function createArticle(articleInfo) {
         'id',
         'title',
         'description',
-        'content',
         'cover',
         'collect_num',
         'create_time',
