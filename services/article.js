@@ -52,7 +52,7 @@ async function createArticle(articleInfo) {
       limit,
       order: [['create_time','DESC']]
     })
-    console.log(articles.rows,articles,Array.isArray(articles.rows))
+    // console.log(articles.rows,articles,Array.isArray(articles.rows))
     articles.rows = articles.rows.map(article =>{
       const articlesJson = article.toJSON()
       const is_collected = articlesJson.UserArticleCollections.length ? 1:0
@@ -71,7 +71,7 @@ async function createArticle(articleInfo) {
 
   // 查询某个用户下的记录
   async function findSelfArticles(user_id,offset,limit) {
-    console.log('offset limit',user_id,offset,limit)
+    // console.log('offset limit',user_id,offset,limit)
     const articles = await Article.findAndCountAll({
       where:{
         user_id
@@ -115,7 +115,7 @@ async function createArticle(articleInfo) {
       limit,
       order: [['create_time','DESC']]
     })
-    console.log(articles.rows,articles,Array.isArray(articles.rows))
+    // console.log(articles.rows,articles,Array.isArray(articles.rows))
     articles.rows = articles.rows.map(article =>{
       const articlesJson = article.toJSON()
       const is_collected = articlesJson.UserArticleCollections.length ? 1:0

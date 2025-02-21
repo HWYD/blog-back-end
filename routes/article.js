@@ -10,7 +10,6 @@ const bodyMulter = multer({ storage: multer.memoryStorage() });
 //所有文章列表
 router.get('/article', async(req, res) => {
     const query = req.query
-    console.log('users',req.query)
     try {
         const user_id = req.user?.id || ''
         const page = Number(query.page || 1)
@@ -27,9 +26,9 @@ router.get('/article', async(req, res) => {
 //某个用户的文章列表
 router.get('/self_article', async(req, res) => {
     const query = req.query
-    console.log('users',req.user)
+    console.log('users',req.user,'请求了self_article')
     try {
-        const user_id = req.user?.id || ''
+        const user_id = query.user_id || req.user?.id || ''
         const page = Number(query.page || 1)
         const limit = Number(query.pagesize || 10)
         const offset = (page - 1) * limit
