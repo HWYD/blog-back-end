@@ -134,8 +134,20 @@ async function createArticle(articleInfo) {
   
   // 根据 id 查询记录
   async function findArticleById(id) {
-    const article = await Article.findByPk(id)
-    return article?.toJSON()
+    const article = await Article.findByPk(id, {
+      include: {
+        model: User,
+        attributes: ['name'] // 只查询用户名
+      }
+    })
+    const ret = {
+      ...article?.toJSON()
+    }
+    if(article){
+      ret['author'] = article.User.name
+    }
+    
+    return ret
   }
   
   // 更新记录
