@@ -12,8 +12,8 @@ const bodyMulter = multer({ storage: multer.memoryStorage() });
 //记录用户收藏与取消收藏
 router.post('/collection',bodyMulter.none(), async(req, res) => {
     const info = Object.assign({}, req.body);
-    console.log('body看这里',info,req.body,'试试')
     const status = info.status
+    info.user_id = req.user?.id || info.user_id
     try {
         let result
         if(info.status == '1'){
@@ -43,7 +43,6 @@ router.post('/collection',bodyMulter.none(), async(req, res) => {
 router.get('/collection', async(req, res) => {
     const query = req.query
     try {
-        console.log(query)
         const page = Number(query.page) || 1
         const limit = Number(query.pagesize) || 0
         const offset = (page - 1) * limit

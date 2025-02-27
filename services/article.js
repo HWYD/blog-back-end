@@ -12,7 +12,6 @@ async function createArticle(articleInfo) {
   
   // 查询所有记录
   async function findAllArticles(user_id,offset,limit) {
-    console.log('offset limit',user_id,offset,limit)
     const articles = await Article.findAndCountAll({
       include: [
         {
@@ -41,6 +40,7 @@ async function createArticle(articleInfo) {
         'description',
         'cover',
         'collect_num',
+        'view_num',
         'create_time',
         'user_id'
         // [
@@ -52,7 +52,6 @@ async function createArticle(articleInfo) {
       limit,
       order: [['create_time','DESC']]
     })
-    // console.log(articles.rows,articles,Array.isArray(articles.rows))
     articles.rows = articles.rows.map(article =>{
       const articlesJson = article.toJSON()
       const is_collected = articlesJson.UserArticleCollections.length ? 1:0
@@ -104,6 +103,7 @@ async function createArticle(articleInfo) {
         'content',
         'cover',
         'collect_num',
+        'view_num',
         'create_time',
         'user_id'
         // [
@@ -128,7 +128,6 @@ async function createArticle(articleInfo) {
         is_collected
       }
     })
-    // console.log('books',books)
     return articles
   }
   
@@ -140,6 +139,13 @@ async function createArticle(articleInfo) {
         attributes: ['name'] // 只查询用户名
       }
     })
+    if (!article) {
+      return null
+    }
+    // 增加浏览量
+    await article.increment('view_num', { by: 1 });
+    // 重新加载文章以获取最新的浏览量
+    await article.reload();
     const ret = {
       ...article?.toJSON()
     }
@@ -158,7 +164,6 @@ async function createArticle(articleInfo) {
       article.desc = articleInfo.desc || article.desc
       article.price = articleInfo.price || article.price
       await article.save()
-      console.log(article.toJSON())
     } else {
       console.log('Book not found')
     }
@@ -170,14 +175,13 @@ async function createArticle(articleInfo) {
   //   const user = await User.findByPk(id)
   //   if (user) {
   //     await user.destroy()
-  //     console.log('User deleted')
   //   } else {
   //     console.log('User not found')
   //   }
   //   return user
   // }
 
-// 更新书籍收藏数量
+// 更新文章收藏数量
   async function updateCollectNum(article_id,status) {
     if(status == '1'){
       await Article.increment('collect_num',{

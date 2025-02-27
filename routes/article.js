@@ -26,7 +26,6 @@ router.get('/article', async(req, res) => {
 //某个用户的文章列表
 router.get('/self_article', async(req, res) => {
     const query = req.query
-    console.log('users',req.user,'请求了self_article')
     try {
         const user_id = query.user_id || req.user?.id || ''
         const page = Number(query.page || 1)
@@ -43,7 +42,6 @@ router.get('/self_article', async(req, res) => {
 //获取某篇文章
 router.get('/article_one', async(req, res) => {
     const query = req.query
-    console.log('article_one',query)
     try {
         const id = query.id || ''
         const bookData  = await articleServices.findArticleById(id)
@@ -58,10 +56,8 @@ router.get('/article_one', async(req, res) => {
 router.post('/article', bodyMulter.none(), async(req, res) => {
     const user_id = req.user?.id || ''
     const articleInfo = Object.assign({}, req.body, {user_id});
-    console.log(articleInfo)
     try {
         const articleData  = await articleServices.createArticle(articleInfo)
-        console.log('createInfo', articleData)
         const result = resFormatter('创建成功')
         res.send(result)
     } catch (error) {

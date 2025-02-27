@@ -12,7 +12,6 @@ async function createTag(tagInfo) {
             name: tagInfo.name
         }
     })
-    console.log(tag)
     if(tag){
         return null
     }else{
@@ -41,7 +40,6 @@ async function createTag(tagInfo) {
     })
     console.log('articleTagData',articleTagData)
     const result = await ArticleTagModel.bulkCreate(articleTagData);
-    console.log('成功插入的书籍 - 标签记录数量:', result.length);
     return result;
   }
   // 删除书籍标签

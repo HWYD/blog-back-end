@@ -16,7 +16,6 @@ router.post('/register',bodyMulter.none(), async(req, res) => {
   try {
     bcrypt.hash(userInfo.password, 10, async function(err, hash) {
         // 存储哈希后的密码到数据库
-        console.log('hash',hash)
         userInfo.password = hash
         const userData  = await userServices.createUser(userInfo)
         console.log('createInfo', userData)
@@ -33,7 +32,6 @@ router.post('/login',bodyMulter.none(), async(req, res) => {
   let userInfo = Object.assign({}, req.body);
     if(userInfo.phone){
       const userData  = await userServices.findUserByPhone(userInfo.phone)
-      console.log(userData)
       bcrypt.compare(userInfo.password, userData.password, function(err, result) {
         if(result == true){
             userInfo = {
@@ -41,7 +39,6 @@ router.post('/login',bodyMulter.none(), async(req, res) => {
               id: userData.id
             }
             const token = generateToken(userInfo)
-            console.log(req.body,'body')
             const result = resFormatter({token})
             res.json(result)
         }else{

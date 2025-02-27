@@ -1,12 +1,10 @@
 // import {deepCopy} from '../utils/index'
 
 export default function responseFormatter(req, res, next) {
-    console.log('执行')
     // 保存原始的res.json方法
     const originalJson = res.json;
     // 重写res.json方法
     res.json = function (data) {
-        console.log('data执行')
         const response = {
             code: 200,
             message: 'Success',

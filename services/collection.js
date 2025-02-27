@@ -26,7 +26,6 @@ async function createCollection(info) {
   
 //   // 根据 用户id 查询该收藏记录
   async function findCollectionByUserId(user_id,offset,limit) {
-    console.log(offset,limit, typeof offset,'test')
      const userCollections  = await CollectionModel.findAll({
       where: {
           user_id

@@ -46,6 +46,11 @@ const Article = sequelize.define(
         type: DataTypes.INTEGER(10),
         defaultValue: 0,
         allowNull: true
+      },
+      view_num: {
+        type: DataTypes.INTEGER(10),
+        defaultValue: 0,
+        allowNull: true
       }
     },
     {

@@ -9,7 +9,6 @@ const bodyMulter = multer({ storage: multer.memoryStorage() });
 
 //标签列表
 router.get('/tag', async(req, res) => {
-    console.log('users',req.user)
     try {
         const tagData  = await tagServices.findAllTag()
         const result = resFormatter(tagData)
@@ -34,7 +33,6 @@ router.post('/tag', bodyMulter.none(), async(req, res) => {
 //新增标签
 router.post('/article-tag', bodyMulter.none(), async(req, res) => {
     const articleTagInfo = Object.assign({}, req.body);
-    console.log(articleTagInfo,typeof articleTagInfo.tag_id,Array.isArray(articleTagInfo.tag_id))
     try {
         const ret = await tagServices.deleteArticleTag(articleTagInfo.article_id)
         const tagData  = await tagServices.updateArticleTag(articleTagInfo)
@@ -46,7 +44,6 @@ router.post('/article-tag', bodyMulter.none(), async(req, res) => {
             console.error('尝试插入重复的文章 - 标签组合，以下是可能重复的数据:');
             if(Array.isArray(error.errors)){
                 error.errors.forEach((err) => {
-                    console.log(`文章ID-标签ID: ${err.value}`);
                 });
             }
         }else{

@@ -12,7 +12,6 @@ async function createBook(bookInfo) {
   
   // 查询所有记录
   async function findAllBooks(user_id,offset,limit) {
-    console.log('offset limit',user_id,offset,limit)
     const books = await Book.findAndCountAll({
       include: [
         {
@@ -48,7 +47,6 @@ async function createBook(bookInfo) {
       limit,
       order: [['create_time','DESC']]
     })
-    console.log(Array.isArray(books.rows))
     books.rows = books.rows.map(book =>{
       const bookJson = book.toJSON()
       const is_collected = bookJson.UserBookCollections.length ? 1:0
@@ -76,7 +74,6 @@ async function createBook(bookInfo) {
       book.desc = bookInfo.desc || book.desc
       book.price = bookInfo.price || book.price
       await book.save()
-      console.log(book.toJSON())
     } else {
       console.log('Book not found')
     }

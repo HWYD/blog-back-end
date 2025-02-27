@@ -39,7 +39,6 @@ const Collection = sequelize.define(
   )
 
   Collection.beforeCreate((collection, options) => {
-    console.log('collection',collection)
     collection.create_time = new Date();
   });
 

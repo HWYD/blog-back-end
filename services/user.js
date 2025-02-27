@@ -40,7 +40,6 @@ async function createUser(userInfo) {
       user.phone = userInfo.phone || user.phone
       user.email = userInfo.email || user.email
       await user.save()
-      console.log(user.toJSON())
     } else {
       console.log('User not found')
     }

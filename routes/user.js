@@ -25,7 +25,6 @@ router.post('/user', async(req, res) => {
     const userInfo = body
     try {
         const userData  = await userServices.createUser(userInfo)
-        console.log('createInfo', userData)
         const result = resFormatter('创建成功')
         res.send(result)
     } catch (error) {
@@ -57,7 +56,6 @@ router.put('/user', async(req, res) => {
     const userInfo = body
     try {
         const userData  = await userServices.updateUser(userInfo)
-        console.log('createInfo', userData)
         const result = resFormatter('创建成功')
         res.send(result)
     } catch (error) {
