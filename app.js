@@ -3,9 +3,18 @@ import mountRouters from './routes/mountRouters.js'
 import mountMiddleware from './middleware/index.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
+import path from 'path'
+import { fileURLToPath } from 'url'
+// 配置路径解析
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const PORT = 3300 // 用于设置端口号
 const app = express() // 创建一个express应用程序实例
+
+// 静态资源服务
+const resourceDir = path.join(__dirname, '../blog-resource')
+app.use('/resources', express.static(resourceDir))
 app.use(express.static('public'))
 app.use(cookieParser());
 

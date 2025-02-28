@@ -28,7 +28,7 @@ export function generateToken(userInfo) {
 //校验token
 export function authenticateToken(req, res, next) {
   const token = req.cookies.authorization || req.headers.authorization
-  console.log('有无token呢',token,req.headers)
+  // console.log('有无token呢',token,req.headers)
   if (token == null) {
       // return res.sendStatus(401);
       next();

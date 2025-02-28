@@ -5,11 +5,12 @@ import bookRouter from './book.js'
 import collectionRouter from './collection.js'
 import tagRouter from './tag.js'
 import articleRouter from './article.js'
+import uploadRouter from './upload.js'
 import helloRouter from './hello.js'
 
 
 
-const routers = [loginRouter,responseRouter,userRouter,bookRouter,collectionRouter,tagRouter,articleRouter,helloRouter]
+const routers = [loginRouter,responseRouter,userRouter,bookRouter,collectionRouter,tagRouter,articleRouter,uploadRouter,helloRouter]
 
 export default function mountRouters(app) {
     // mountMethodDemo(app)
