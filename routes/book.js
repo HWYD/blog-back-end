@@ -5,7 +5,7 @@ import { resFormatter } from '../utils/index.js'
 
 const router = express.Router()
 
-const bodyMulter = multer({ storage: multer.memoryStorage() }); 
+const bodyMulter = multer(); 
 
 //书籍列表
 router.get('/book', async(req, res) => {

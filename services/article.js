@@ -2,12 +2,26 @@ import Article from '../models/article.js'
 import Tag from '../models/tag.js'
 import Collection from '../models/collection.js'
 import User from '../models/user.js'
+import ArticleTagModel from '../models/article_tag.js'
 import '../models/associations.js'
 
   // 创建记录
 async function createArticle(articleInfo) {
     const article = await Article.create(articleInfo)
-    return article.toJSON()
+    const articleData = article.toJSON()
+    // 步骤 1: 删除文章之前的所有标签
+    await ArticleTagModel.destroy({
+      where: {
+          article_id: articleData.id
+      }
+     });
+    const articleTagSet = [...new Set(articleInfo.tags)];
+    const articleTagData = articleTagSet.map(tag_id=>({
+      article_id: articleData.id,
+      tag_id
+    }))
+    await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
+    return articleData
   }
   
   // 查询所有记录

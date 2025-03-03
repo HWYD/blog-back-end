@@ -30,7 +30,7 @@ router.post('/tag', bodyMulter.none(), async(req, res) => {
     }
 })
 
-//新增标签
+//打标签
 router.post('/article-tag', bodyMulter.none(), async(req, res) => {
     const articleTagInfo = Object.assign({}, req.body);
     try {

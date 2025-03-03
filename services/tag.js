@@ -28,7 +28,7 @@ async function createTag(tagInfo) {
     return tags.map(tag => tag.toJSON())
   }
   
-  // 给书籍打标签
+  // 给博客打标签
   async function updateArticleTag(articleTagInfo) {
     const articleTagData = [];
     const articleTagSet = [...new Set(articleTagInfo.tag_id)];
@@ -42,7 +42,7 @@ async function createTag(tagInfo) {
     const result = await ArticleTagModel.bulkCreate(articleTagData);
     return result;
   }
-  // 删除书籍标签
+  // 删除博客标签
   async function deleteArticleTag(article_id) {
     const ret = await ArticleTagModel.destroy({
         where: {
