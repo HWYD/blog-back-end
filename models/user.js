@@ -26,7 +26,7 @@ const User = sequelize.define(
       },
       email: {
         type: DataTypes.CHAR(250),
-        allowNull: false
+        allowNull: true
       },
       age: {
         type: DataTypes.INTEGER(3),
