@@ -39,6 +39,22 @@ router.get('/self_article', async(req, res) => {
     }
 })
 
+//某个用户收藏的文章列表
+router.get('/collect_article', async(req, res) => {
+    const query = req.query
+    try {
+        const user_id = query.user_id || req.user?.id || ''
+        const page = Number(query.page || 1)
+        const limit = Number(query.pagesize || 10)
+        const offset = (page - 1) * limit
+        const bookData  = await articleServices.findCollectArticles(user_id,offset,limit)
+        const result = resFormatter(bookData)
+        res.json(result)
+    } catch (error) {
+        console.log('error',error)
+    }
+})
+
 //获取某篇文章
 router.get('/article_one', async(req, res) => {
     const query = req.query

@@ -58,4 +58,11 @@ router.post('/login',bodyMulter.none(), async(req, res) => {
     //   })
 })
 
+//检查登录状态
+router.get('/login-status', async(req, res) => {
+  const login_status = !!(req.user?.id)
+  const result = resFormatter({login_status})
+  res.send(result)
+})
+
 export default router

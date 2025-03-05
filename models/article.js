@@ -61,28 +61,6 @@ const Article = sequelize.define(
     }
   )
   
-// paginate.paginate(Book);
-
-// 定义书籍与标签的多对多关联关系
-// Book.belongsToMany(Tag, {
-//   through: 'book_tag',
-//   foreignKey: {
-//     name: 'book_id',
-//     references: {
-//         model: 'Book',
-//         key: 'id'
-//     }
-//   },
-//   otherForeignKey: {
-//     name: 'tag_id',
-//     references: {
-//         model: 'Tag',
-//         key: 'id'
-//     }
-//   }
-// });
-
-
 export default Article;
 
   

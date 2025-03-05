@@ -1,9 +1,5 @@
 import TagModel from '../models/tag.js'
-import BookTagModel from '../models/book_tag.js'
 import ArticleTagModel from '../models/article_tag.js'
-import { where } from 'sequelize'
-import article from './article.js'
-
   
   // 创建记录
 async function createTag(tagInfo) {

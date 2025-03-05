@@ -1,6 +1,4 @@
 import CollectionModel from "../models/collection.js"
-import Book from "../models/book.js"
-
   
   // 创建记录
 async function createCollection(info) {
@@ -18,13 +16,8 @@ async function createCollection(info) {
       return null
   }
   
-  // 查询所有记录
-  // async function findAllBooks() {
-  //   const books = await Book.findAll()
-  //   return books.map((book) => book.toJSON())
-  // }
   
-//   // 根据 用户id 查询该收藏记录
+// 根据 用户id 查询该收藏记录
   async function findCollectionByUserId(user_id,offset,limit) {
      const userCollections  = await CollectionModel.findAll({
       where: {

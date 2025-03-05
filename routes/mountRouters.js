@@ -1,7 +1,6 @@
 import responseRouter from './response.js'
 import loginRouter from './login.js'
 import userRouter from './user.js'
-import bookRouter from './book.js'
 import collectionRouter from './collection.js'
 import tagRouter from './tag.js'
 import articleRouter from './article.js'
@@ -10,7 +9,7 @@ import helloRouter from './hello.js'
 
 
 
-const routers = [loginRouter,responseRouter,userRouter,bookRouter,collectionRouter,tagRouter,articleRouter,uploadRouter,helloRouter]
+const routers = [loginRouter,responseRouter,userRouter,collectionRouter,tagRouter,articleRouter,uploadRouter,helloRouter]
 
 export default function mountRouters(app) {
     // mountMethodDemo(app)

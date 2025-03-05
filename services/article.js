@@ -144,7 +144,69 @@ async function createArticle(articleInfo) {
     })
     return articles
   }
-  
+
+  // 查询某个用户收藏的记录
+  async function findCollectArticles(user_id,offset,limit) {
+    const articles = await Article.findAndCountAll({
+      where:{
+        user_id
+      },
+      include: [
+        {
+          model: Collection,
+          attributes: ['user_id'],
+          where: {
+            user_id
+          },
+          distinct: true,
+          required: true   //左外连接, 没有找到与 Article 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Article 模型中的那条记录
+        },
+        {
+          model: Tag,
+          through: {
+            attributes: []
+          }
+        },
+        {
+          model: User,
+          attributes: ['name']
+      }
+      ],
+      attributes:[
+        'id',
+        'title',
+        'description',
+        'content',
+        'cover',
+        'collect_num',
+        'view_num',
+        'create_time',
+        'user_id'
+        // [
+        //   sequelize.literal('CASE WHEN COUNT(`UserBookCollections`.`user_id`) > 0 THEN 1 ELSE 0 END'),
+        //   'is_collected'
+        // ]
+      ],
+      offset,
+      limit,
+      order: [['create_time','DESC']]
+    })
+    // console.log(articles.rows,articles,Array.isArray(articles.rows))
+    articles.rows = articles.rows.map(article =>{
+      const articlesJson = article.toJSON()
+      const is_collected = articlesJson.UserArticleCollections.length ? 1:0
+      const author = articlesJson.User.name
+      delete articlesJson.UserArticleCollections
+      delete articlesJson.User
+      return {
+        ...articlesJson,
+        author,
+        is_collected
+      }
+    })
+    return articles
+  }
+
   // 根据 id 查询记录
   async function findArticleById(id) {
     const article = await Article.findByPk(id, {
@@ -221,7 +283,7 @@ async function createArticle(articleInfo) {
     updateCollectNum,
     findArticleById,
     updateArticle,
-    findSelfArticles
-    // deleteUser
+    findSelfArticles,
+    findCollectArticles
   }
   

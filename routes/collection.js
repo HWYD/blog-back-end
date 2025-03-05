@@ -1,7 +1,6 @@
 import express from 'express'
 import multer from 'multer'
 import collectionServices from '../services/collection.js'
-import bookServices from '../services/book.js'
 import articleServices from '../services/article.js'
 import { resFormatter } from '../utils/index.js'
 

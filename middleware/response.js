@@ -5,6 +5,9 @@ export default function responseFormatter(req, res, next) {
     const originalJson = res.json;
     // 重写res.json方法
     res.json = function (data) {
+        // if(typeof data == 'object' && data !== null){
+        //     data.login_status = !!(req.user?.id)
+        // }
         const response = {
             code: 200,
             message: 'Success',

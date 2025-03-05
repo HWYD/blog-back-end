@@ -5,8 +5,7 @@ const secretKey = 'secret_key_1230';
 const whiteList = [
   '/login',
   '/register',
-  '/book',
-  'hello'
+  '/hello'
 ];
 
 //生成token
