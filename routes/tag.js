@@ -49,7 +49,9 @@ router.post('/article-tag', bodyMulter.none(), async(req, res) => {
         }else{
             console.error('插入文章 - 标签数据时出错:', error);
         }
-        const result = resFormatter(error,'打标签失败')
+        const result = resFormatter(error,{
+            message: '打标签失败'
+        })
         res.send(result)
     }
 })

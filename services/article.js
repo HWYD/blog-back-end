@@ -78,6 +78,7 @@ async function createArticle(articleInfo) {
         is_collected
       }
     })
+    articles.login_status = !!user_id
     // console.log('books',books)
     return articles
   }

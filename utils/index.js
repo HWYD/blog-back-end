@@ -5,7 +5,7 @@ const secretKey = 'secret_key_1230';
 const whiteList = [
   '/login',
   '/register',
-  '/hello'
+  '/article',
 ];
 
 //生成token
@@ -28,6 +28,7 @@ export function generateToken(userInfo) {
 export function authenticateToken(req, res, next) {
   const token = req.cookies.authorization || req.headers.authorization
   // console.log('有无token呢',token,req.headers)
+  console.log('urlurl',req.path)
   if (token == null) {
       // return res.sendStatus(401);
       next();
@@ -35,10 +36,18 @@ export function authenticateToken(req, res, next) {
   }
   jwt.verify(token, secretKey, (err, user) => {
       if (err) {
-          // console.log('err 403')
+        if(whiteList.includes(req.path)){
+            next();
+        }else{
+          console.log('err 403')
+           const result = resFormatter(null,{
+             message: '请先登录！',
+             code: 403
+           })
+          res.send(result)
           // return res.sendStatus(403);
-          next();
-          return
+        }
+        return
       }
       console.log('校验通过')
       req.user = user;
@@ -83,17 +92,17 @@ export function deepCopy(obj) {
 
 
   // 统一返回格式
-export function resFormatter(data,errMsg){
+export function resFormatter(data,{errMsg, code, message}={}){
   const response = {
-    code: 200,
-    message: 'Success',
+    code: code || 200,
+    message: message || 'Success',
     data: data
   };
-  if (data === null) {
+  if (data === null && response.code == 200) {
       response.message = 'Data not found';
   }
   // 如果有错误，根据错误类型设置code和message
-  if (data instanceof Error) {
+  if (data instanceof Error && response.code == 200) {
       response.code = 500;
       response.message = errMsg || data.message;
       response.data = null;

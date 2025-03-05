@@ -32,7 +32,9 @@ router.post('/collection',bodyMulter.none(), async(req, res) => {
         res.send(result)
     } catch (error) {
         console.log('这里',error)
-        const result = resFormatter(error,  status == '1'? '收藏失败': '取消收藏失败')
+        const result = resFormatter(error, {
+            message: status == '1'? '收藏失败': '取消收藏失败'
+        })
         res.send(result)
         // console.log('error',error)
     }
