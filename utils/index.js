@@ -6,6 +6,7 @@ const whiteList = [
   '/login',
   '/register',
   '/article',
+  '/login-status'
 ];
 
 //生成token
