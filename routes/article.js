@@ -59,8 +59,9 @@ router.get('/collect_article', async(req, res) => {
 router.get('/article_one', async(req, res) => {
     const query = req.query
     try {
+        const user_id = query.user_id || req.user?.id || ''
         const id = query.id || ''
-        const bookData  = await articleServices.findArticleById(id)
+        const bookData  = await articleServices.findArticleById(id,user_id)
         const result = resFormatter(bookData)
         res.json(result)
     } catch (error) {

@@ -209,7 +209,7 @@ async function createArticle(articleInfo) {
   }
 
   // 根据 id 查询记录
-  async function findArticleById(id) {
+  async function findArticleById(id,user_id) {
     const article = await Article.findByPk(id, {
       include: {
         model: User,
@@ -228,6 +228,7 @@ async function createArticle(articleInfo) {
     }
     if(article){
       ret['author'] = article.User.name
+      ret['is_author'] = user_id == article.user_id ? '1' : '0'
     }
     
     return ret
