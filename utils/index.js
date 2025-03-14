@@ -6,6 +6,7 @@ const whiteList = [
   '/login',
   '/register',
   '/article',
+  '/article_one',
   '/login-status'
 ];
 

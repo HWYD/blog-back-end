@@ -82,43 +82,8 @@ Article.belongsToMany(Tag, {
     }
 });
 
-
-// Article.belongsToMany(Tag, {
-//   through: {
-//     model: ArticleTag,
-//     attributes: []
-//   },
-//   foreignKey: {
-//     name: 'article_id',
-//     references: {
-//       model: Article,
-//       key: 'id'
-//     }
-//   },
-//   otherForeignKey: {
-//     name: 'tag_id',
-//     references: {
-//       model: Tag,
-//       key: 'id'
-//     }
-//   }
-// });
-
-// Article.hasMany(ArticleTag, { foreignKey: 'article_id' });
-// Tag.hasMany(ArticleTag, { foreignKey: 'tag_id' });
-// ArticleTag.belongsTo(Article, { foreignKey: 'article_id', targetKey: 'id' });
-// ArticleTag.belongsTo(Tag, { foreignKey: 'tag_id', targetKey: 'id' });
-
 //文章与用户
 // 一篇文章属于一个用户
 Article.belongsTo(User, { foreignKey: 'user_id',targetKey: 'id' });
 // 一个用户可以有多篇文章
 User.hasMany(Article, { foreignKey: 'user_id' });
-
-
-  console.log('天气')
-
-
-//   export default {
-//     Article
-//   }
