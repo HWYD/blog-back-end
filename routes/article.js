@@ -14,7 +14,7 @@ router.get('/article', async(req, res) => {
         const user_id = req.user?.id || ''
         const page = Number(query.page || 1)
         const limit = Number(query.pagesize || 10)
-        const offset = page - 1
+        const offset = (page - 1) * limit
         const bookData  = await articleServices.findAllArticles(user_id,offset,limit)
         const result = resFormatter(bookData)
         res.json(result)
