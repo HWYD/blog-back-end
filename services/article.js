@@ -23,6 +23,37 @@ async function createArticle(articleInfo) {
     await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
     return articleData
   }
+
+  // 更新记录
+  async function updateArticle(articleInfo) {
+    const article = await Article.findByPk(articleInfo.id)
+    if (article) {
+      // article = {
+      //   ...article,
+      //   ...articleInfo
+      // }
+      article.title = articleInfo.title || article.title
+      article.content = articleInfo.content || article.content
+      article.description = articleInfo.description || article.description
+      article.cover = articleInfo.cover || article.cover
+      await article.save()
+         // 步骤 1: 删除文章之前的所有标签
+      await ArticleTagModel.destroy({
+        where: {
+            article_id: articleInfo.id
+        }
+      });
+      const articleTagSet = [...new Set(articleInfo.tags)];
+      const articleTagData = articleTagSet.map(tag_id=>({
+        article_id: articleInfo.id,
+        tag_id
+      }))
+      await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
+    } else {
+      console.log('Article not found')
+    }
+    return article
+  }
   
   // 查询所有记录
   async function findAllArticles(user_id,offset,limit) {
@@ -64,7 +95,9 @@ async function createArticle(articleInfo) {
       ],
       offset,
       limit,
-      order: [['create_time','DESC']]
+      order: [['create_time','DESC']],
+      distinct: true,    // 关键配置：去重主模型
+      subQuery: false
     })
     articles.rows = articles.rows.map(article =>{
       const articlesJson = article.toJSON()
@@ -211,10 +244,16 @@ async function createArticle(articleInfo) {
   // 根据 id 查询记录
   async function findArticleById(id,user_id) {
     const article = await Article.findByPk(id, {
-      include: {
-        model: User,
-        attributes: ['name'] // 只查询用户名
-      }
+      include: [
+        {
+          model: User,
+          attributes: ['name'] // 只查询用户名
+        },
+        {
+          model: Tag,
+          attributes: ['name'] 
+        }
+      ]
     })
     if (!article) {
       return null
@@ -229,23 +268,13 @@ async function createArticle(articleInfo) {
     if(article){
       ret['author'] = article.User.name
       ret['is_author'] = user_id == article.user_id ? '1' : '0'
+      ret['tags'] = ret.Tags.map(item => ({
+        id: item.id,
+        name: item.name
+      }))
     }
     
     return ret
-  }
-  
-  // 更新记录
-  async function updateArticle(articleInfo) {
-    const article = await Article.findByPk(articleInfo.id)
-    if (article) {
-      article.name = articleInfo.name || article.name
-      article.desc = articleInfo.desc || article.desc
-      article.price = articleInfo.price || article.price
-      await article.save()
-    } else {
-      console.log('Book not found')
-    }
-    return article
   }
   
   // // 删除记录

@@ -74,8 +74,14 @@ router.post('/article', bodyMulter.none(), async(req, res) => {
     const user_id = req.user?.id || ''
     const articleInfo = Object.assign({}, req.body, {user_id});
     try {
-        const articleData  = await articleServices.createArticle(articleInfo)
-        const result = resFormatter('创建成功')
+        let result
+        if(articleInfo.id){
+            const articleData  = await articleServices.updateArticle(articleInfo)
+            result = resFormatter('更新成功')
+        }else{
+            const articleData  = await articleServices.createArticle(articleInfo)
+            result = resFormatter('创建成功')
+        }
         res.send(result)
     } catch (error) {
         console.log('error',error)
