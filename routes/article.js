@@ -60,9 +60,10 @@ router.get('/article_one', async(req, res) => {
     const query = req.query
     try {
         const user_id = query.user_id || req.user?.id || ''
+        const user_phone = req.user?.phone || ''
         const id = query.id || ''
-        const bookData  = await articleServices.findArticleById(id,user_id)
-        const result = resFormatter(bookData)
+        const articleData  = await articleServices.findArticleById(id,user_id,user_phone)
+        const result = resFormatter(articleData)
         res.json(result)
     } catch (error) {
         console.log('error',error)
@@ -87,6 +88,22 @@ router.post('/article', bodyMulter.none(), async(req, res) => {
         console.log('error',error)
     }
 })
-
+//删除用户
+router.delete('/article', async(req, res) => {
+    const { params,query } = req
+    try {
+        console.log(params,query)
+        const ret = await articleServices.deleteArticle(query.id)
+        if(ret){
+            const result = resFormatter('删除成功')
+            res.send(result)
+        }else{
+            const result = resFormatter('删除失败')
+            res.send(result)
+        }
+    } catch (error) {
+        console.log('error',error)
+    }
+})
 
 export default router

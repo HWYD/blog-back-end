@@ -88,10 +88,6 @@ async function createArticle(articleInfo) {
         'view_num',
         'create_time',
         'user_id'
-        // [
-        //   sequelize.literal('CASE WHEN COUNT(`UserBookCollections`.`user_id`) > 0 THEN 1 ELSE 0 END'),
-        //   'is_collected'
-        // ]
       ],
       offset,
       limit,
@@ -112,7 +108,6 @@ async function createArticle(articleInfo) {
       }
     })
     articles.login_status = !!user_id
-    // console.log('books',books)
     return articles
   }
 
@@ -242,7 +237,7 @@ async function createArticle(articleInfo) {
   }
 
   // 根据 id 查询记录
-  async function findArticleById(id,user_id) {
+  async function findArticleById(id,user_id,user_phone) {
     const article = await Article.findByPk(id, {
       include: [
         {
@@ -268,6 +263,9 @@ async function createArticle(articleInfo) {
     if(article){
       ret['author'] = article.User.name
       ret['is_author'] = user_id == article.user_id ? '1' : '0'
+      if(user_phone == '15113106975'){
+        ret['is_admin'] = '1'
+      }
       ret['tags'] = ret.Tags.map(item => ({
         id: item.id,
         name: item.name
@@ -277,16 +275,16 @@ async function createArticle(articleInfo) {
     return ret
   }
   
-  // // 删除记录
-  // async function deleteUser(id) {
-  //   const user = await User.findByPk(id)
-  //   if (user) {
-  //     await user.destroy()
-  //   } else {
-  //     console.log('User not found')
-  //   }
-  //   return user
-  // }
+  // 删除记录
+  async function deleteArticle(id) {
+    const article = await Article.findByPk(id)
+    if (article) {
+      await article.destroy()
+    } else {
+      console.log('Article not found')
+    }
+    return Article
+  }
 
 // 更新文章收藏数量
   async function updateCollectNum(article_id,status) {
@@ -315,6 +313,7 @@ async function createArticle(articleInfo) {
     findArticleById,
     updateArticle,
     findSelfArticles,
-    findCollectArticles
+    findCollectArticles,
+    deleteArticle
   }
   
