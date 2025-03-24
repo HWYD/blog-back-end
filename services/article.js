@@ -9,18 +9,6 @@ import '../models/associations.js'
 async function createArticle(articleInfo) {
     const article = await Article.create(articleInfo)
     const articleData = article.toJSON()
-    // 步骤 1: 删除文章之前的所有标签
-    await ArticleTagModel.destroy({
-      where: {
-          article_id: articleData.id
-      }
-     });
-    const articleTagSet = [...new Set(articleInfo.tags)];
-    const articleTagData = articleTagSet.map(tag_id=>({
-      article_id: articleData.id,
-      tag_id
-    }))
-    await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
     return articleData
   }
 
