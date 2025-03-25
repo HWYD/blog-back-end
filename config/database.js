@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
 
 
-const db_password = process.env.NODE_ENV == 'development'? 'mysql3306' : '3324742.aA'
+const db_password = process.env.NODE_ENV == 'development' ? 'mysql3306' : '3324742.aA'
 
 
 const sequelize = new Sequelize('blog_db', 'root', db_password, {
