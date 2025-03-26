@@ -90,7 +90,7 @@ async function findAllArticles(user_id, offset, limit) {
     limit,
     order: [['create_time', 'DESC']],
     distinct: true,    // 关键配置：去重主模型
-    subQuery: false
+    // subQuery: false
   })
   articles.rows = articles.rows.map(article => {
     const articlesJson = article.toJSON()
