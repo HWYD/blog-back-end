@@ -18,13 +18,15 @@ app.use('/resources', express.static(resourceDir))
 app.use(express.static('public'))
 app.use(cookieParser());
 
-// 或者只允许特定源的请求
-app.use(cors({
-  origin: ['http://localhost:3000','http://8.138.28.97:3000','http://8.138.28.97','http://www.hwyblog.cloud'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization','X-Requested-With'],
-  credentials: true,
-}));
+if(process.env.NODE_ENV != 'production'){
+  // 或者只允许特定源的请求
+  app.use(cors({
+    origin: ['http://localhost:3000','http://8.138.28.97:3000','http://8.138.28.97','http://www.hwyblog.cloud'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization','X-Requested-With'],
+    credentials: true,
+  }));
+}
 
 // app.use(responseFormatter)
 
