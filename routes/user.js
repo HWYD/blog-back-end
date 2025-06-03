@@ -24,7 +24,7 @@ router.post('/user', async (req, res) => {
   const { body } = req
   const userInfo = body
   try {
-    const userData = await userServices.createUser(userInfo)
+    await userServices.createUser(userInfo)
     const result = resFormatter('创建成功')
     res.send(result)
   } catch (error) {
@@ -55,7 +55,7 @@ router.put('/user', async (req, res) => {
   const { body } = req
   const userInfo = body
   try {
-    const userData = await userServices.updateUser(userInfo)
+    await userServices.updateUser(userInfo)
     const result = resFormatter('创建成功')
     res.send(result)
   } catch (error) {
