@@ -1,6 +1,6 @@
 import express from 'express'
 import userServices from '../services/user.js'
-import { resFormatter } from '../utils/index.js'
+import { generateToken, resFormatter } from '../utils/index.js'
 
 const router = express.Router()
 
