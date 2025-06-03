@@ -1,7 +1,7 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import multer from 'multer'
 import { v4 as uuidv4 } from 'uuid'
-import path from 'path'
-import { fileURLToPath } from 'url'
 
 // 获取当前模块路径
 const __filename = fileURLToPath(import.meta.url)
@@ -33,4 +33,4 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }
 })
 
-export default upload;
+export default upload

@@ -1,10 +1,10 @@
-import express from 'express'
-import mountRouters from './routes/mountRouters.js'
-import mountMiddleware from './middleware/index.js'
-import cors from 'cors';
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import cookieParser from 'cookie-parser'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import cors from 'cors'
+import express from 'express'
+import mountMiddleware from './middleware/index.js'
+import mountRouters from './routes/mountRouters.js'
 // 配置路径解析
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -16,15 +16,15 @@ const app = express() // 创建一个express应用程序实例
 const resourceDir = path.join(__dirname, '../blog-resource')
 app.use('/resources', express.static(resourceDir))
 app.use(express.static('public'))
-app.use(cookieParser());
+app.use(cookieParser())
 
 // 或者只允许特定源的请求
 app.use(cors({
-  origin: ['http://localhost:3000','http://8.138.28.97:3000','http://8.138.28.97','http://www.hwyblog.cloud'],
+  origin: ['http://localhost:3000', 'http://8.138.28.97:3000', 'http://8.138.28.97', 'http://www.hwyblog.cloud'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization','X-Requested-With'],
-  credentials: true,
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true
+}))
 
 // app.use(responseFormatter)
 
@@ -33,8 +33,7 @@ mountMiddleware(app)
 // mountMethodDemo(app)
 mountRouters(app)
 
-
-app.listen(PORT, '0.0.0.0',() => {
-    // 在控制台输出服务器运行信息
-    console.log(`Server is running at http://localhost:${PORT}`)
-  })
+app.listen(PORT, '0.0.0.0', () => {
+  // 在控制台输出服务器运行信息
+  console.log(`Server is running at http://localhost:${PORT}`)
+})

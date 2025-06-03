@@ -1,8 +1,8 @@
 import Article from '../models/article.js'
-import Tag from '../models/tag.js'
-import Collection from '../models/collection.js'
-import User from '../models/user.js'
 import ArticleTagModel from '../models/article_tag.js'
+import Collection from '../models/collection.js'
+import Tag from '../models/tag.js'
+import User from '../models/user.js'
 import '../models/associations.js'
 
 // 创建记录
@@ -14,13 +14,13 @@ async function createArticle(articleInfo) {
     where: {
       article_id: articleData.id
     }
-  });
-  const articleTagSet = [...new Set(articleInfo.tags)];
+  })
+  const articleTagSet = [...new Set(articleInfo.tags)]
   const articleTagData = articleTagSet.map(tag_id => ({
     article_id: articleData.id,
     tag_id
   }))
-  await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
+  await ArticleTagModel.bulkCreate(articleTagData) // 批量操作标签
   return articleData
 }
 
@@ -38,13 +38,13 @@ async function updateArticle(articleInfo) {
       where: {
         article_id: articleInfo.id
       }
-    });
-    const articleTagSet = [...new Set(articleInfo.tags)];
+    })
+    const articleTagSet = [...new Set(articleInfo.tags)]
     const articleTagData = articleTagSet.map(tag_id => ({
       article_id: articleInfo.id,
       tag_id
     }))
-    await ArticleTagModel.bulkCreate(articleTagData);  //批量操作标签
+    await ArticleTagModel.bulkCreate(articleTagData) // 批量操作标签
   } else {
     console.log('Article not found')
   }
@@ -62,7 +62,7 @@ async function findAllArticles(user_id, offset, limit) {
           user_id
         },
         distinct: true,
-        required: false   //左外连接, 没有找到与 Book 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Book 模型中的那条记录
+        required: false // 左外连接, 没有找到与 Book 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Book 模型中的那条记录
       },
       {
         model: Tag,
@@ -89,10 +89,10 @@ async function findAllArticles(user_id, offset, limit) {
     offset,
     limit,
     order: [['create_time', 'DESC']],
-    distinct: true,    // 关键配置：去重主模型
+    distinct: true // 关键配置：去重主模型
     // subQuery: false
   })
-  articles.rows = articles.rows.map(article => {
+  articles.rows = articles.rows.map((article) => {
     const articlesJson = article.toJSON()
     const is_collected = articlesJson.UserArticleCollections.length ? 1 : 0
     const author = articlesJson.User.name
@@ -123,7 +123,7 @@ async function findSelfArticles(user_id, offset, limit) {
           user_id
         },
         distinct: true,
-        required: false   //左外连接, 没有找到与 Book 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Book 模型中的那条记录
+        required: false // 左外连接, 没有找到与 Book 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Book 模型中的那条记录
       },
       {
         model: Tag,
@@ -156,7 +156,7 @@ async function findSelfArticles(user_id, offset, limit) {
     order: [['create_time', 'DESC']]
   })
   // console.log(articles.rows,articles,Array.isArray(articles.rows))
-  articles.rows = articles.rows.map(article => {
+  articles.rows = articles.rows.map((article) => {
     const articlesJson = article.toJSON()
     const is_collected = articlesJson.UserArticleCollections.length ? 1 : 0
     const author = articlesJson.User.name
@@ -185,7 +185,7 @@ async function findCollectArticles(user_id, offset, limit) {
           user_id
         },
         distinct: true,
-        required: true   //左外连接, 没有找到与 Article 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Article 模型中的那条记录
+        required: true // 左外连接, 没有找到与 Article 模型中某条记录相匹配的记录（也就是某本书没有对应的收藏记录），仍然会返回 Article 模型中的那条记录
       },
       {
         model: Tag,
@@ -218,7 +218,7 @@ async function findCollectArticles(user_id, offset, limit) {
     order: [['create_time', 'DESC']]
   })
   // console.log(articles.rows,articles,Array.isArray(articles.rows))
-  articles.rows = articles.rows.map(article => {
+  articles.rows = articles.rows.map((article) => {
     const articlesJson = article.toJSON()
     const is_collected = articlesJson.UserArticleCollections.length ? 1 : 0
     const author = articlesJson.User.name
@@ -251,19 +251,19 @@ async function findArticleById(id, user_id, user_phone) {
     return null
   }
   // 增加浏览量
-  await article.increment('view_num', { by: 1 });
+  await article.increment('view_num', { by: 1 })
   // 重新加载文章以获取最新的浏览量
-  await article.reload();
+  await article.reload()
   const ret = {
     ...article?.toJSON()
   }
   if (article) {
-    ret['author'] = article.User.name
-    ret['is_author'] = user_id == article.user_id ? '1' : '0'
+    ret.author = article.User.name
+    ret.is_author = user_id == article.user_id ? '1' : '0'
     if (user_phone == '15113106975') {
-      ret['is_admin'] = '1'
+      ret.is_admin = '1'
     }
-    ret['tags'] = ret.Tags.map(item => ({
+    ret.tags = ret.Tags.map(item => ({
       id: item.id,
       name: item.name
     }))
