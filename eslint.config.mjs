@@ -12,10 +12,10 @@ export default antfu(
       // 引号风格 'single' | 'double'
       quotes: 'single',
       // 是否启用分号
-      semi: false
+      semi: false,
     },
     // 忽略文件
-    ignores: ['eslint.config.js', 'public/**']
+    ignores: ['eslint.config.mjs', 'public/**'],
   },
   {
     // 对所有文件都生效的规则
@@ -34,7 +34,7 @@ export default antfu(
       'no-debugger': 'off',
       'symbol-description': 'off',
       'antfu/if-newline': 'off',
-      'unicorn/no-instanceof-builtins': 'off'
-    }
-  }
+      'unicorn/no-instanceof-builtins': 'off',
+    },
+  },
 )
